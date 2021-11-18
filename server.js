@@ -11,6 +11,17 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", path.resolve(__dirname, "./views"));
 
+app.use((req, res, next) => {
+	process.stdout.write(JSON.stringify({
+		url: req.originalUrl,
+		mthod: req.method,
+		protocol: req.protocol,
+		hostname: req.hostname
+	}) + '\n');
+
+	next();
+});
+
 app.get("/", (req, res) => {
 	res.render("home", {
 		name: (req.get("Experience") ? "Jim" : "Steven"),
